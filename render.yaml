@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: rappi-ecommerce-api
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn rappi_ecommerce.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true          # Render genera un valor seguro automáticamente
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "rappi-ecommerce-api.onrender.com"  # Cambia por tu subdominio real
+      - key: PYTHON_VERSION
+        value: "3.13.0"
+      # Base de datos PostgreSQL (Neon)
+      - key: DB_NAME
+        value: "neondb"
+      - key: DB_USER
+        sync: false                  # Ingresar manualmente en el dashboard de Render
+      - key: DB_PASSWORD
+        sync: false                  # Ingresar manualmente en el dashboard de Render
+      - key: DB_HOST
+        sync: false                  # Ingresar manualmente en el dashboard de Render
+      - key: DB_PORT
+        value: "5432"
+      # Email (Resend)
+      - key: RESEND_API_KEY
+        sync: false                  # Ingresar manualmente en el dashboard de Render
+      - key: DEFAULT_FROM_EMAIL
+        value: "onboarding@resend.dev"
